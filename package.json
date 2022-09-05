@@ -1,0 +1,16 @@
+{
+  "name": "cluttered-cent-add-5a6e7",
+  "productName": "cluttered-cent-add-5a6e7",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "zeta",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "20.1.1"
+  }
+}
