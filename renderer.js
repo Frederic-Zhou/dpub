@@ -7,17 +7,17 @@
 
 const func = async () => {
 
-    let response = await window.orbitdb.run('hello111')
+    let response = await window.db.run('hello111')
     console.log('response', response) // prints out 'pong'
-    response = await window.orbitdb.add({ 'txt': 'hello world' })
+    response = await window.db.add({ 'txt': 'hello world' })
     console.log('response', response) // prints out 'pong'
 
-    response = await window.orbitdb.query()
+    response = await window.db.query()
     console.log('list', response)
 }
 
 
-window.orbitdb.handleUpdated((event, value) => {
+window.db.handleUpdated((event, value) => {
     console.log('updated', value)
 })
 

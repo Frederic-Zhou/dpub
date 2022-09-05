@@ -2,7 +2,7 @@
 const OrbitDB = require('orbit-db')
 let db, orbitdb
 
-const run = async (e, dbaddress) => {
+const open = async (e, dbaddress) => {
     const ipfsOptions = {
         relay: {
             enabled: true
@@ -73,7 +73,7 @@ const updateEvent = async (e, act) => {
 }
 
 module.exports = {
-    run: run,
+    open: open,
     db: db,
     orbitdb: orbitdb,
     add: add,

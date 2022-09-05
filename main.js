@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const { windowsStore } = require('process')
-const oribitdb = require('./orbitdb.js')
+const database = require('./db.js')
 
 
 function createWindow() {
@@ -15,9 +15,9 @@ function createWindow() {
     }
   })
 
-  ipcMain.handle('orbitdb_run', oribitdb.run)
-  ipcMain.handle('orbitdb_add', oribitdb.add)
-  ipcMain.handle('orbitdb_query', oribitdb.query)
+  ipcMain.handle('db_open', database.open)
+  ipcMain.handle('db_add', database.add)
+  ipcMain.handle('db_query', database.query)
 
 
   // and load the index.html of the app.
