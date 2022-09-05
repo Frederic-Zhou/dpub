@@ -10,3 +10,12 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+const { contextBridge, ipcRenderer, ipcMain } = require('electron')
+
+contextBridge.exposeInMainWorld('orbitdb', {
+  run: (dbaddress) => ipcRenderer.invoke('orbitdb_run', dbaddress),
+  add: (obj) => ipcRenderer.invoke('orbitdb_add', obj),
+  handleUpdated: (callback) => ipcRenderer.on('updated', callback)
+  // we can also expose variables, not just functions
+})

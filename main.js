@@ -1,16 +1,26 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const { windowsStore } = require('process')
+const oribitdb = require('./orbitdb.js')
 
-function createWindow () {
+
+function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: true,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
+
+  ipcMain.handle('orbitdb_run', oribitdb.run)
+  ipcMain.handle('orbitdb_add', oribitdb.add)
+
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
