@@ -12,6 +12,8 @@ const func = async () => {
     response = await window.orbitdb.add({ 'txt': 'hello world' })
     console.log('response', response) // prints out 'pong'
 
+    response = await window.orbitdb.query()
+    console.log('list', response)
 }
 
 

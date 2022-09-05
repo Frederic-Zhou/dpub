@@ -33,20 +33,6 @@ const run = async (e, dbaddress) => {
 
     db = await orbitdb.feed(dbaddress || "helloworld", options)
 
-    // const queryAndRender = async (db) => {
-    //     const result = db.iterator({
-    //         limit: 50
-    //     }).collect()
-
-    //     if (result && Array.isArray(result) && result.length > 0) {
-    //         const logs = result.slice().reverse().map((e) => {
-    //             return e.payload.value
-    //         })
-    //         console.clear()
-    //         console.log(logs.reverse().join('\n'))
-    //     }
-    // }
-
     // When the database is ready(ie.loaded), display results
     db.events.on('ready', () => { updateEvent(e, 'ready') })
     // When database gets replicated with a peer, display results
@@ -62,9 +48,23 @@ const run = async (e, dbaddress) => {
     return db.address.toString()
 }
 
-
-const add = async (e, obj) => {
+const add = async (_, obj) => {
     return await db.add(obj)
+}
+
+const query = async (_, size) => {
+    const result = db.iterator({
+        limit: size || 10
+    }).collect()
+
+    if (result && Array.isArray(result) && result.length > 0) {
+        const logs = result.slice().reverse().map((e) => {
+            return e.payload.value
+        })
+
+        return logs.reverse()
+    }
+    return null
 }
 
 const updateEvent = async (e, act) => {
@@ -77,4 +77,5 @@ module.exports = {
     db: db,
     orbitdb: orbitdb,
     add: add,
+    query: query
 }

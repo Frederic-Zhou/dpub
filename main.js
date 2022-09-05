@@ -11,15 +11,13 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: true,
-      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
 
   ipcMain.handle('orbitdb_run', oribitdb.run)
   ipcMain.handle('orbitdb_add', oribitdb.add)
+  ipcMain.handle('orbitdb_query', oribitdb.query)
 
 
   // and load the index.html of the app.
