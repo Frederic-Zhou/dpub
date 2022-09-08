@@ -17,6 +17,8 @@ contextBridge.exposeInMainWorld('db', {
   run: (dbaddress) => ipcRenderer.invoke('db_open', dbaddress),
   add: (obj) => ipcRenderer.invoke('db_add', obj),
   query: (size) => ipcRenderer.invoke('db_query', size),
+  id: () => ipcRenderer.invoke('db_id'),
+  addr: () => ipcRenderer.invoke('db_addr'),
   onUpdated: (callback) => ipcRenderer.on('updated', callback)
   // we can also expose variables, not just functions
 })

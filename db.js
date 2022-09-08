@@ -72,10 +72,18 @@ const updateEvent = async (e, act) => {
     e.sender.send('updated', act)
 }
 
+const id = async (e) => {
+    return orbitdb.id
+}
+
+const addr = async (e) => {
+    return db.address.toString()
+}
+
 module.exports = {
     open: open,
     add: add,
     query: query,
-    id: () => { orbitdb.id },
-    addr: () => { db.address.toString() }
+    id: id,
+    addr: addr
 }

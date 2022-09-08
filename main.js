@@ -18,6 +18,8 @@ function createWindow() {
   ipcMain.handle('db_open', database.open)
   ipcMain.handle('db_add', database.add)
   ipcMain.handle('db_query', database.query)
+  ipcMain.handle('db_addr', database.addr)
+  ipcMain.handle('db_id', database.id)
 
 
   // and load the index.html of the app.

@@ -14,6 +14,12 @@ const func = async () => {
 
     response = await window.db.query()
     console.log('list', response)
+
+    response = await window.db.id()
+    console.log('id', response)
+
+    response = await window.db.addr()
+    console.log('addr', response)
 }
 
 
