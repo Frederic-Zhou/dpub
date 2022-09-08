@@ -17,8 +17,8 @@ const func = async () => {
 }
 
 
-window.db.handleUpdated((event, value) => {
-    console.log('updated', value)
+window.db.onUpdated((event, value) => {
+    console.log('updated', event, value)
 })
 
 func()
