@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <link href="./ui/css/bootstrap.min.css" rel="stylesheet">
+  <script src="./ui/js/bootstrap.min.js"></script>
+  <script src="./ui/js/bootstrap.bundle.min.js"></script>
+  <title>IPFS ROOM</title>
+</head>
+
+<body>
+
+  <div class="container">
+
+
+    <div class="mb-3">
+      <label for="textarea-messages" class="form-label">Messages:</label>
+      <div class="alert alert-warning" role="alert" id="alert-warning"></div>
+      <textarea class="form-control" readonly id="txta-messages" rows="15"></textarea>
+    </div>
+
+
+    <div class="input-group mb-3">
+
+      <input type="text" class="form-control" id="ipt-message" aria-label="Text input with dropdown button">
+
+      <button type="button" id="btn-switch" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split"
+        data-bs-toggle="dropdown" aria-expanded="false">
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#" id="li-open">Link or Create</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="#" id="li-aka">Set AKA</a></li>
+
+      </ul>
+
+      <button class="btn btn-outline-info" id="btn-send" type="button" aria-expanded="false">Send</button>
+    </div>
+
+
+  </div>
+
+
+
+  <script src="./renderer.js"></script>
+</body>
+
 </html>

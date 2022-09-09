@@ -4,27 +4,71 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
+let refreshPeersInterval
+let AKA = ''
+const main = async () => {
 
-const func = async () => {
+    window.db.onUpdated(async (event, value) => {
+        console.log('updated', event, value)
+        let messages = await window.db.query(50)
 
-    let response = await window.db.run('hello111')
-    console.log('response', response) // prints out 'pong'
-    response = await window.db.add({ 'txt': 'hello world' })
-    console.log('response', response) // prints out 'pong'
+        window.document.getElementById("txta-messages").value = ''
+        for (var i = 0; i < messages.length; i++) {
+            let prefix = messages[i].id == await window.db.id() ? "[YOU]" : ''
+            window.document.getElementById("txta-messages").value += `${prefix}${messages[i].AKA}(${messages[i].id.slice(-4)}):${messages[i].txt} \n`
+        }
 
-    response = await window.db.query()
-    console.log('list', response)
+        window.document.getElementById("txta-messages").scrollTop = window.document.getElementById("txta-messages").scrollHeight;
+    })
 
-    response = await window.db.id()
-    console.log('id', response)
+    window.document.getElementById("li-open").addEventListener("click", async () => {
+        clearInterval(refreshPeersInterval)
+        let addr = document.getElementById("ipt-message").value
+        window.db.open(addr)
 
-    response = await window.db.addr()
-    console.log('addr', response)
+        document.getElementById("ipt-message").value = ''
+
+
+        refreshPeersInterval = setInterval(refreshPeers, 3000)
+
+    });
+
+    window.document.getElementById("li-aka").addEventListener("click", async () => {
+        AKA = document.getElementById("ipt-message").value == '' ? AKA : document.getElementById("ipt-message").value
+        document.getElementById("ipt-message").value = ''
+    });
+
+    window.document.getElementById("btn-send").addEventListener("click", async () => {
+        send()
+    });
+
+    window.document.getElementById("ipt-message").addEventListener("keydown", async (e) => {
+        if (e.key === 'Enter') {
+            send()
+        }
+    });
 }
 
 
-window.db.onUpdated((event, value) => {
-    console.log('updated', event, value)
-})
+send = async () => {
 
-func()
+    try {
+        let txt = document.getElementById("ipt-message").value
+        if (txt.length > 1) {
+            window.db.add({ "txt": txt, "id": await window.db.id(), "AKA": AKA })
+        }
+    } catch (error) {
+        document.getElementById("alert-warning").innerText = `fail:${error}
+        Link or Create first!!`
+    }
+    document.getElementById("ipt-message").value = ''
+}
+
+refreshPeers = async () => {
+    const nd = await window.db.peers()
+    document.getElementById("alert-warning").innerText = `connected peers ${nd[0]} / topic peers ${nd[1]} 
+        address: ${await window.db.addr()}
+        id:${await window.db.id()} `
+}
+
+main()

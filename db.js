@@ -1,6 +1,6 @@
 
 const OrbitDB = require('orbit-db')
-let db, orbitdb
+let db, orbitdb, ipfs
 
 const open = async (e, dbaddress) => {
     const ipfsOptions = {
@@ -22,7 +22,7 @@ const open = async (e, dbaddress) => {
     } = await import('ipfs-http-client')
 
 
-    const ipfs = await create(ipfsOptions)
+    ipfs = await create(ipfsOptions)
     orbitdb = await OrbitDB.createInstance(ipfs)
     const options = {
         // Give write access to ourselves
@@ -32,7 +32,6 @@ const open = async (e, dbaddress) => {
     }
 
     db = await orbitdb.feed(dbaddress || "helloworld", options)
-
     // When the database is ready(ie.loaded), display results
     db.events.on('ready', () => { updateEvent(e, 'ready') })
     // When database gets replicated with a peer, display results
@@ -64,7 +63,9 @@ const query = async (_, size) => {
 
         return logs.reverse()
     }
-    return null
+
+    return []
+
 }
 
 const updateEvent = async (e, act) => {
@@ -80,10 +81,20 @@ const addr = async (e) => {
     return db.address.toString()
 }
 
+const peers = async (e) => {
+    const networkPeers = await ipfs.swarm.peers()
+    const databasePeers = await ipfs.pubsub.peers(db.address.toString())
+
+    console.log([networkPeers.length, databasePeers.length])
+
+    return [networkPeers.length, databasePeers.length]
+}
+
 module.exports = {
     open: open,
     add: add,
     query: query,
     id: id,
-    addr: addr
+    addr: addr,
+    peers: peers
 }

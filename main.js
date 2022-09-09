@@ -8,8 +8,8 @@ const database = require('./db.js')
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 680,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
@@ -20,6 +20,7 @@ function createWindow() {
   ipcMain.handle('db_query', database.query)
   ipcMain.handle('db_addr', database.addr)
   ipcMain.handle('db_id', database.id)
+  ipcMain.handle('db_peers', database.peers)
 
 
   // and load the index.html of the app.
